@@ -1,9 +1,11 @@
 package ba.unsa.etf.rpr;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -15,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GradController {
     public TextField fieldNaziv;
@@ -56,13 +59,30 @@ public class GradController {
         stage.close();
     }
 
+    private void lockInputs() {
+        fieldNaziv.disableProperty().setValue(true);
+        fieldBrojStanovnika.disableProperty().setValue(true);
+        fieldPostanskiBroj.disableProperty().setValue(true);
+        choiceDrzava.disableProperty().setValue(true);
+        fieldNaziv.getScene().setCursor(Cursor.WAIT);
+    }
+
+    private void unlockInputs() {
+        fieldNaziv.disableProperty().setValue(false);
+        fieldBrojStanovnika.disableProperty().setValue(false);
+        fieldPostanskiBroj.disableProperty().setValue(false);
+        choiceDrzava.disableProperty().setValue(false);
+        fieldNaziv.getScene().setCursor(Cursor.DEFAULT);
+    }
+
     public void clickOk(ActionEvent actionEvent) {
-        boolean sveOk = true;
+        lockInputs();
+        AtomicBoolean sveOk = new AtomicBoolean(true);
 
         if (fieldNaziv.getText().trim().isEmpty()) {
             fieldNaziv.getStyleClass().removeAll("poljeIspravno");
             fieldNaziv.getStyleClass().add("poljeNijeIspravno");
-            sveOk = false;
+            sveOk.set(false);
         } else {
             fieldNaziv.getStyleClass().removeAll("poljeNijeIspravno");
             fieldNaziv.getStyleClass().add("poljeIspravno");
@@ -78,57 +98,64 @@ public class GradController {
         if (brojStanovnika <= 0) {
             fieldBrojStanovnika.getStyleClass().removeAll("poljeIspravno");
             fieldBrojStanovnika.getStyleClass().add("poljeNijeIspravno");
-            sveOk = false;
+            sveOk.set(false);
         } else {
             fieldBrojStanovnika.getStyleClass().removeAll("poljeNijeIspravno");
             fieldBrojStanovnika.getStyleClass().add("poljeIspravno");
         }
 
-        String link = "http://c9.etf.unsa.ba/proba/postanskiBroj.php?postanskiBroj=";
-        link += fieldPostanskiBroj.getText().trim();
-        try {
-            URL url = new URL(link);
-            BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
-            String json = "", line = null;
-            while ((line = input.readLine()) != null) {
-                json += line;
+
+        Thread thread1 = new Thread(() -> {
+            String link = "http://c9.etf.unsa.ba/proba/postanskiBroj.php?postanskiBroj=";
+            link += fieldPostanskiBroj.getText().trim();
+            try {
+                URL url = new URL(link);
+                BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
+                String json = "", line = null;
+                while ((line = input.readLine()) != null) {
+                    json += line;
+                }
+                input.close();
+                boolean temp = json.equals("OK");
+                if(temp) {
+                    Platform.runLater(() -> {
+                        fieldPostanskiBroj.getStyleClass().removeAll("poljeNijeIspravno");
+                        fieldPostanskiBroj.getStyleClass().add("poljeIspravno");
+                        if (!sveOk.get()) return;
+                        if (grad == null) grad = new Grad();
+                        grad.setNaziv(fieldNaziv.getText());
+                        grad.setBrojStanovnika(Integer.parseInt(fieldBrojStanovnika.getText().trim()));
+                        grad.setDrzava(choiceDrzava.getValue());
+                        grad.setPostanskiBroj(Integer.parseInt(fieldPostanskiBroj.getText().trim()));
+                        Platform.runLater(() -> {
+                            unlockInputs();
+                            Stage stage = (Stage) fieldNaziv.getScene().getWindow();
+                            stage.close();
+                        });
+                    });
+
+                } else {
+                    Platform.runLater(() -> {
+                        fieldPostanskiBroj.getStyleClass().removeAll("poljeIspravno");
+                        fieldPostanskiBroj.getStyleClass().add("poljeNijeIspravno");
+                        sveOk.set(false);
+                        unlockInputs();
+                    });
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            input.close();
-            boolean temp = json.equals("OK");
-            if(temp) {
-                fieldPostanskiBroj.getStyleClass().removeAll("poljeNijeIspravno");
-                fieldPostanskiBroj.getStyleClass().add("poljeIspravno");
-            } else {
-                fieldPostanskiBroj.getStyleClass().removeAll("poljeIspravno");
-                fieldPostanskiBroj.getStyleClass().add("poljeNijeIspravno");
-                sveOk = false;
-            }
-        } catch (MalformedURLException e) {
+
+
+
+        });
+        thread1.start();
+        /*try {
+            thread1.join();
+        } catch (InterruptedException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        if (!sveOk) return;
-
-        if (grad == null) grad = new Grad();
-        grad.setNaziv(fieldNaziv.getText());
-        grad.setBrojStanovnika(Integer.parseInt(fieldBrojStanovnika.getText().trim()));
-        grad.setDrzava(choiceDrzava.getValue());
-        grad.setPostanskiBroj(Integer.parseInt(fieldPostanskiBroj.getText().trim()));
-        Stage stage = (Stage) fieldNaziv.getScene().getWindow();
-        stage.close();
-
-
-
-
-
-
-
-
-
-
-
+        }*/
     }
 }
