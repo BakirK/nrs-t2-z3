@@ -8,7 +8,7 @@ public class Grad {
 
     private int postanskiBroj;
 
-    public Grad(int id, String naziv, int brojStanovnika, Drzava drzava, int postanskiBroj) {
+    public Grad(int id, String naziv, int brojStanovnika, int postanskiBroj, Drzava drzava) {
         this.id = id;
         this.naziv = naziv;
         this.brojStanovnika = brojStanovnika;
