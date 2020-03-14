@@ -60,18 +60,20 @@ public class GradController {
     }
 
     private void lockInputs() {
-        fieldNaziv.disableProperty().setValue(true);
-        fieldBrojStanovnika.disableProperty().setValue(true);
-        fieldPostanskiBroj.disableProperty().setValue(true);
+        //fieldNaziv.disableProperty().setValue(true);
+        fieldNaziv.setEditable(false);
+        fieldBrojStanovnika.setEditable(false);
+        fieldPostanskiBroj.setEditable(false);
         choiceDrzava.disableProperty().setValue(true);
         fieldNaziv.getScene().setCursor(Cursor.WAIT);
     }
 
     private void unlockInputs() {
-        fieldNaziv.disableProperty().setValue(false);
-        fieldBrojStanovnika.disableProperty().setValue(false);
-        fieldPostanskiBroj.disableProperty().setValue(false);
-        choiceDrzava.disableProperty().setValue(false);
+        //fieldNaziv.disableProperty().setValue(false);
+        fieldNaziv.setEditable(true);
+        fieldBrojStanovnika.setEditable(true);
+        fieldPostanskiBroj.setEditable(true);
+        choiceDrzava.disableProperty().setValue(false);;
         fieldNaziv.getScene().setCursor(Cursor.DEFAULT);
     }
 
