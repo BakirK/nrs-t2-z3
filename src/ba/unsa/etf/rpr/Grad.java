@@ -6,11 +6,14 @@ public class Grad {
     private int brojStanovnika;
     private Drzava drzava;
 
-    public Grad(int id, String naziv, int brojStanovnika, Drzava drzava) {
+    private int postanskiBroj;
+
+    public Grad(int id, String naziv, int brojStanovnika, Drzava drzava, int postanskiBroj) {
         this.id = id;
         this.naziv = naziv;
         this.brojStanovnika = brojStanovnika;
         this.drzava = drzava;
+        this.postanskiBroj = postanskiBroj;
     }
 
     public Grad() {
@@ -48,6 +51,16 @@ public class Grad {
         this.drzava = drzava;
     }
 
+    private void setPostanskiBroj(int postanskiBroj) {
+        this.postanskiBroj = postanskiBroj;
+    }
+
+    public int getPostanskiBroj() {
+        return postanskiBroj;
+    }
+
     @Override
     public String toString() { return naziv; }
+
+
 }
