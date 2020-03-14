@@ -84,6 +84,7 @@ public class GradController {
         grad.setNaziv(fieldNaziv.getText());
         grad.setBrojStanovnika(Integer.parseInt(fieldBrojStanovnika.getText()));
         grad.setDrzava(choiceDrzava.getValue());
+        grad.setPostanskiBroj(Integer.parseInt(fieldPostanskiBroj.getText()));
         Stage stage = (Stage) fieldNaziv.getScene().getWindow();
         stage.close();
     }

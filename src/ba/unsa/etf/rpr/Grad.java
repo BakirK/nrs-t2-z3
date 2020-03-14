@@ -51,7 +51,7 @@ public class Grad {
         this.drzava = drzava;
     }
 
-    private void setPostanskiBroj(int postanskiBroj) {
+    public void setPostanskiBroj(int postanskiBroj) {
         this.postanskiBroj = postanskiBroj;
     }
 

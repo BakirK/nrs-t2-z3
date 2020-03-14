@@ -110,7 +110,7 @@ public class GeografijaDAO {
     }
 
     private Grad dajGradIzResultSeta(ResultSet rs, Drzava d) throws SQLException {
-        return new Grad(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), d);
+        return new Grad(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(5), d);
     }
 
     private Drzava dajDrzavu(int id) {
