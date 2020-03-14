@@ -8,6 +8,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class GradController {
@@ -78,14 +84,51 @@ public class GradController {
             fieldBrojStanovnika.getStyleClass().add("poljeIspravno");
         }
 
+        String link = "http://c9.etf.unsa.ba/proba/postanskiBroj.php?postanskiBroj=";
+        link += fieldPostanskiBroj.getText().trim();
+        try {
+            URL url = new URL(link);
+            BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
+            String json = "", line = null;
+            while ((line = input.readLine()) != null) {
+                json += line;
+            }
+            input.close();
+            boolean temp = json.equals("OK");
+            if(temp) {
+                fieldPostanskiBroj.getStyleClass().removeAll("poljeNijeIspravno");
+                fieldPostanskiBroj.getStyleClass().add("poljeIspravno");
+            } else {
+                fieldPostanskiBroj.getStyleClass().removeAll("poljeIspravno");
+                fieldPostanskiBroj.getStyleClass().add("poljeNijeIspravno");
+                sveOk = false;
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         if (!sveOk) return;
 
         if (grad == null) grad = new Grad();
         grad.setNaziv(fieldNaziv.getText());
-        grad.setBrojStanovnika(Integer.parseInt(fieldBrojStanovnika.getText()));
+        grad.setBrojStanovnika(Integer.parseInt(fieldBrojStanovnika.getText().trim()));
         grad.setDrzava(choiceDrzava.getValue());
-        grad.setPostanskiBroj(Integer.parseInt(fieldPostanskiBroj.getText()));
+        grad.setPostanskiBroj(Integer.parseInt(fieldPostanskiBroj.getText().trim()));
         Stage stage = (Stage) fieldNaziv.getScene().getWindow();
         stage.close();
+
+
+
+
+
+
+
+
+
+
+
     }
 }
