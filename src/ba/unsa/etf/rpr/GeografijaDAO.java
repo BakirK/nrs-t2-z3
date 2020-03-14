@@ -201,8 +201,8 @@ public class GeografijaDAO {
             dodajGradUpit.setInt(1, id);
             dodajGradUpit.setString(2, grad.getNaziv());
             dodajGradUpit.setInt(3, grad.getBrojStanovnika());
-            dodajGradUpit.setInt(4, grad.getPostanskiBroj());
-            dodajGradUpit.setInt(5, grad.getDrzava().getId());
+            dodajGradUpit.setInt(4, grad.getDrzava().getId());
+            dodajGradUpit.setInt(5, grad.getPostanskiBroj());
             dodajGradUpit.executeUpdate();
 
         } catch (SQLException e) {
