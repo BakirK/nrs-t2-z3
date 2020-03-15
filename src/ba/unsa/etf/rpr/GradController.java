@@ -10,6 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -31,10 +32,17 @@ public class GradController {
     public ChoiceBox<Drzava> choiceDrzava;
     public ObservableList<Drzava> listDrzave;
     private Grad grad;
+    public ListView<Znamenitost> listViewZnamenitosti;
+    public ObservableList<Znamenitost> znamenitostiList;
 
     public GradController(Grad grad, ArrayList<Drzava> drzave) {
         this.grad = grad;
         listDrzave = FXCollections.observableArrayList(drzave);
+        ArrayList<Znamenitost> znamenitosti = grad.getZnamenitosti();
+        if(znamenitosti != null && !znamenitosti.isEmpty()) {
+            znamenitostiList = FXCollections.observableArrayList(znamenitosti);
+        }
+
     }
 
     @FXML
@@ -51,6 +59,9 @@ public class GradController {
                     choiceDrzava.getSelectionModel().select(drzava);
         } else {
             choiceDrzava.getSelectionModel().selectFirst();
+        }
+        if(znamenitostiList != null && !znamenitostiList.isEmpty()) {
+            listViewZnamenitosti.setItems(znamenitostiList);
         }
     }
 
@@ -78,6 +89,7 @@ public class GradController {
             stage.show();
 
             stage.setOnHiding( event -> {
+                //TODO
                 /*Drzava drzava = drzavaController.getDrzava();
                 if (drzava != null) {
                     dao.dodajDrzavu(drzava);

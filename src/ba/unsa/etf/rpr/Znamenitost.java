@@ -36,4 +36,9 @@ public class Znamenitost {
     public void setSlika(String slika) {
         this.slika = slika;
     }
+
+    @Override
+    public String toString() {
+        return naziv;
+    }
 }

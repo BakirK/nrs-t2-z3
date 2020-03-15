@@ -132,7 +132,7 @@ public class GeografijaDAO {
     public ArrayList<Znamenitost> dajZnamenitosti(int id) {
         try {
             dajZnamenitostiUpit.setInt(1, id);
-            ResultSet rs = dajDrzavuUpit.executeQuery();
+            ResultSet rs = dajZnamenitostiUpit.executeQuery();
             if (!rs.next()) return null;
             return dajZnamenitostiIzResultSeta(rs);
         } catch (SQLException e) {
