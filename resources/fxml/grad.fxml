@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:controller="ba.unsa.etf.rpr.GradController" hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <stylesheets>
       <URL value="@/css/forme.css" />
    </stylesheets>
@@ -45,9 +45,9 @@
             <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#clickCancel" text="Cancel" />
          </buttons>
       </ButtonBar>
-      <ListView id="listViewZnamenitosti" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <ListView fx:id="listViewZnamenitosti" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <Label text="Znamenitosti:" GridPane.rowIndex="5" />
-      <Button id="btnDodajZnamenitost" mnemonicParsing="false" onAction="#clickDodaj" text="Dodaj znamenitost" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Button  fx:id="btnDodajZnamenitost" mnemonicParsing="false" onAction="#clickDodaj" text="Dodaj znamenitost" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
    </children>
    <opaqueInsets>
