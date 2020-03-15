@@ -12,7 +12,7 @@ public class GeografijaDAO {
 
     private PreparedStatement glavniGradUpit, dajDrzavuUpit, obrisiDrzavuUpit, obrisiGradoveZaDrzavuUpit, nadjiDrzavuUpit,
             dajGradoveUpit, dodajGradUpit, odrediIdGradaUpit, dodajDrzavuUpit, odrediIdDrzaveUpit, promijeniGradUpit, dajGradUpit,
-            nadjiGradUpit, obrisiGradUpit, dajDrzaveUpit;
+            nadjiGradUpit, obrisiGradUpit, dajDrzaveUpit, dajZnamenitostiUpit;
 
     public static GeografijaDAO getInstance() {
         if (instance == null) instance = new GeografijaDAO();
@@ -53,6 +53,8 @@ public class GeografijaDAO {
             odrediIdDrzaveUpit = conn.prepareStatement("SELECT MAX(id)+1 FROM drzava");
 
             promijeniGradUpit = conn.prepareStatement("UPDATE grad SET naziv=?, broj_stanovnika=?, drzava=?, postanski_broj=? WHERE id=?");
+
+            dajZnamenitostiUpit = conn.prepareStatement("SELECT id, naziv, slika FROM znamenitost WHERE grad_id=?");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -110,7 +112,9 @@ public class GeografijaDAO {
     }
 
     private Grad dajGradIzResultSeta(ResultSet rs, Drzava d) throws SQLException {
-        return new Grad(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(5), d);
+        Grad g = new Grad(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(5), d);
+        g.setZnamenitosti(dajZnamenitosti(g.getId()));
+        return g;
     }
 
     private Drzava dajDrzavu(int id) {
@@ -123,6 +127,33 @@ public class GeografijaDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public ArrayList<Znamenitost> dajZnamenitosti(int id) {
+        try {
+            dajZnamenitostiUpit.setInt(1, id);
+            ResultSet rs = dajDrzavuUpit.executeQuery();
+            if (!rs.next()) return null;
+            return dajZnamenitostiIzResultSeta(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private ArrayList<Znamenitost> dajZnamenitostiIzResultSeta(ResultSet rs) {
+        ArrayList<Znamenitost> znamenitosti;
+        try {
+            znamenitosti = new ArrayList<>();
+            do {
+                Znamenitost temp = new Znamenitost(rs.getInt(1), rs.getString(2), rs.getString(3));
+                znamenitosti.add(temp);
+            } while (rs.next());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return znamenitosti;
     }
 
     private Grad dajGrad(int id, Drzava d) {
