@@ -7,12 +7,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import javax.swing.text.html.ImageView;
+import java.util.ArrayList;
 
 public class ZnamenitostiController {
     @FXML
     private TextField fieldZnamenitost;
     private ImageView imageView;
     private GeografijaDAO dao;
+    private Grad grad;
 
     public Grad getGrad() {
         return grad;
@@ -22,7 +24,6 @@ public class ZnamenitostiController {
         this.grad = grad;
     }
 
-    private Grad grad;
 
     public ZnamenitostiController(Grad grad) {
         this.grad = grad;
@@ -31,11 +32,15 @@ public class ZnamenitostiController {
 
     @FXML
     private void clickOdaberi(ActionEvent actionEvent) {
+
     }
 
     @FXML
     private void clickSave(ActionEvent actionEvent) {
-        Znamenitost z = new Znamenitost(-1, fieldZnamenitost.getText(), imageView.getImageURL().toString(), grad.getId());
+        Znamenitost z = new Znamenitost(-1, fieldZnamenitost.getText(), "C:\\Users\\Bakir\\Pictures\\ker.png", grad.getId());
+        if(grad.getZnamenitosti()==null) {
+            grad.setZnamenitosti(new ArrayList<>());
+        }
         grad.dodajZnamenitost(z);
         dao.dodajZnamenitost(z);
         zatvoriProzorPropuhJe();
