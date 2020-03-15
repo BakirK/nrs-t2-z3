@@ -32,7 +32,8 @@ public class GradController {
     public ChoiceBox<Drzava> choiceDrzava;
     public ObservableList<Drzava> listDrzave;
     private Grad grad;
-    public ListView<Znamenitost> listViewZnamenitosti;
+    @FXML
+    private ListView<Znamenitost> listViewZnamenitosti;
     public ObservableList<Znamenitost> znamenitostiList;
     private GeografijaDAO dao;
 
@@ -98,7 +99,11 @@ public class GradController {
     }
 
     private void refreshListView() {
-        listViewZnamenitosti.setItems(FXCollections.observableArrayList(dao.dajZnamenitosti(grad.getId())));
+        ArrayList<Znamenitost> temp = dao.dajZnamenitosti(grad.getId());
+        if(temp != null && !temp.isEmpty()) {
+            znamenitostiList = FXCollections.observableArrayList(temp);
+            listViewZnamenitosti.setItems(znamenitostiList);
+        }
     }
 
     private void lockInputs() {
