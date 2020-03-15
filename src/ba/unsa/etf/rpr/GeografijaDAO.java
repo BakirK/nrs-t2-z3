@@ -243,7 +243,7 @@ public class GeografijaDAO {
         }
     }
 
-    public void dodajZnamenitost(Znamenitost z, int fk) {
+    public void dodajZnamenitost(Znamenitost z) {
         try {
             ResultSet rs = odrediIdZnamenitostiUpit.executeQuery();
             int id = 1;
@@ -254,7 +254,7 @@ public class GeografijaDAO {
             dodajZnamenitostUpit.setInt(1, id);
             dodajZnamenitostUpit.setString(2, z.getNaziv());
             dodajZnamenitostUpit.setString(3, z.getSlika());
-            dodajZnamenitostUpit.setInt(4, fk);
+            dodajZnamenitostUpit.setInt(4, z.getGradID());
             dodajZnamenitostUpit.executeUpdate();
 
         } catch (SQLException e) {
