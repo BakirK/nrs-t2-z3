@@ -66,6 +66,10 @@ public class Grad {
         return znamenitosti;
     }
 
+    public void dodajZnamenitost(Znamenitost z) {
+        znamenitosti.add(z);
+    }
+
     public void setZnamenitosti(ArrayList<Znamenitost> znamenitosti) {
         this.znamenitosti = znamenitosti;
     }
