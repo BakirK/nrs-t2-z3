@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -26,6 +27,8 @@
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
    </rowConstraints>
    <children>
       <Label text="Naziv:" />
@@ -36,12 +39,15 @@
       <ChoiceBox fx:id="choiceDrzava" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Label layoutX="20.0" layoutY="24.0" text="Poštanski broj:" GridPane.rowIndex="3" />
       <TextField fx:id="fieldPostanskiBroj" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <ButtonBar prefHeight="40.0" prefWidth="239.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+      <ButtonBar prefHeight="40.0" prefWidth="239.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
          <buttons>
-            <Button fx:id="btnOk" mnemonicParsing="false" onAction="#clickOk" text="Ok" />
+            <Button fx:id="btnOk" mnemonicParsing="false" onAction="#clickOk" prefHeight="25.0" text="Ok" />
             <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#clickCancel" text="Cancel" />
          </buttons>
       </ButtonBar>
+      <ListView id="listViewZnamenitosti" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Label text="Znamenitosti:" GridPane.rowIndex="5" />
+      <Button id="btnDodajZnamenitost" mnemonicParsing="false" onAction="#clickDodaj" text="Dodaj znamenitost" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
    </children>
    <opaqueInsets>
