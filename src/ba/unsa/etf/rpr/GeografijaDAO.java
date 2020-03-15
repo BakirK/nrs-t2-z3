@@ -12,7 +12,7 @@ public class GeografijaDAO {
 
     private PreparedStatement glavniGradUpit, dajDrzavuUpit, obrisiDrzavuUpit, obrisiGradoveZaDrzavuUpit, nadjiDrzavuUpit,
             dajGradoveUpit, dodajGradUpit, odrediIdGradaUpit, dodajDrzavuUpit, odrediIdDrzaveUpit, promijeniGradUpit, dajGradUpit,
-            nadjiGradUpit, obrisiGradUpit, dajDrzaveUpit, dajZnamenitostiUpit;
+            nadjiGradUpit, obrisiGradUpit, dajDrzaveUpit, dajZnamenitostiUpit, odrediIdZnamenitostiUpit, dodajZnamenitostUpit;
 
     public static GeografijaDAO getInstance() {
         if (instance == null) instance = new GeografijaDAO();
@@ -54,7 +54,9 @@ public class GeografijaDAO {
 
             promijeniGradUpit = conn.prepareStatement("UPDATE grad SET naziv=?, broj_stanovnika=?, drzava=?, postanski_broj=? WHERE id=?");
 
-            dajZnamenitostiUpit = conn.prepareStatement("SELECT id, naziv, slika FROM znamenitost WHERE grad_id=?");
+            dajZnamenitostiUpit = conn.prepareStatement("SELECT id, naziv, slika, grad_id FROM znamenitost WHERE grad_id=?");
+            odrediIdZnamenitostiUpit = conn.prepareStatement("SELECT MAX(id)+1 FROM znamenitost");
+            dodajZnamenitostUpit = conn.prepareStatement("INSERT INTO znamenitost VALUES(?,?,?,?)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -146,7 +148,7 @@ public class GeografijaDAO {
         try {
             znamenitosti = new ArrayList<>();
             do {
-                Znamenitost temp = new Znamenitost(rs.getInt(1), rs.getString(2), rs.getString(3));
+                Znamenitost temp = new Znamenitost(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 znamenitosti.add(temp);
             } while (rs.next());
         } catch (SQLException e) {
@@ -235,6 +237,25 @@ public class GeografijaDAO {
             dodajGradUpit.setInt(4, grad.getDrzava().getId());
             dodajGradUpit.setInt(5, grad.getPostanskiBroj());
             dodajGradUpit.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dodajZnamenitost(Znamenitost z, int fk) {
+        try {
+            ResultSet rs = odrediIdZnamenitostiUpit.executeQuery();
+            int id = 1;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            z.setId(id);
+            dodajZnamenitostUpit.setInt(1, id);
+            dodajZnamenitostUpit.setString(2, z.getNaziv());
+            dodajZnamenitostUpit.setString(3, z.getSlika());
+            dodajZnamenitostUpit.setInt(4, fk);
+            dodajZnamenitostUpit.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
