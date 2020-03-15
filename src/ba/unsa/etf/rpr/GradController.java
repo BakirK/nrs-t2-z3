@@ -34,6 +34,7 @@ public class GradController {
     private Grad grad;
     public ListView<Znamenitost> listViewZnamenitosti;
     public ObservableList<Znamenitost> znamenitostiList;
+    private GeografijaDAO dao;
 
     public GradController(Grad grad, ArrayList<Drzava> drzave) {
         this.grad = grad;
@@ -42,7 +43,7 @@ public class GradController {
         if(znamenitosti != null && !znamenitosti.isEmpty()) {
             znamenitostiList = FXCollections.observableArrayList(znamenitosti);
         }
-
+        dao = GeografijaDAO.getInstance();
     }
 
     @FXML
@@ -80,7 +81,7 @@ public class GradController {
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/znamenitosti.fxml"));
-            ZnamenitostiController znamenitostiController = new ZnamenitostiController();
+            ZnamenitostiController znamenitostiController = new ZnamenitostiController(grad);
             loader.setController(znamenitostiController);
             root = loader.load();
             stage.setTitle("Znamenitosti");
@@ -89,16 +90,15 @@ public class GradController {
             stage.show();
 
             stage.setOnHiding( event -> {
-                //TODO
-                /*Drzava drzava = drzavaController.getDrzava();
-                if (drzava != null) {
-                    dao.dodajDrzavu(drzava);
-                    listGradovi.setAll(dao.gradovi());
-                }*/
+                refreshListView();
             } );
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void refreshListView() {
+        listViewZnamenitosti.setItems(FXCollections.observableArrayList(dao.dajZnamenitosti(grad.getId())));
     }
 
     private void lockInputs() {
