@@ -7,7 +7,7 @@ public class Grad {
     private String naziv;
     private int brojStanovnika;
     private Drzava drzava;
-    private ArrayList<Znamenitost> znamenitosti;
+    private ArrayList<Znamenitost> znamenitosti = new ArrayList<Znamenitost>();
 
     private int postanskiBroj;
 
