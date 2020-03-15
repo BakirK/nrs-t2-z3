@@ -9,9 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -34,15 +32,19 @@ public class GradController {
     private Grad grad;
     @FXML
     private ListView<Znamenitost> listViewZnamenitosti;
+    @FXML
+    Button btnOk, btnCancel, btnDodajZnamenitost;
     public ObservableList<Znamenitost> znamenitostiList;
     private GeografijaDAO dao;
 
     public GradController(Grad grad, ArrayList<Drzava> drzave) {
         this.grad = grad;
         listDrzave = FXCollections.observableArrayList(drzave);
-        ArrayList<Znamenitost> znamenitosti = grad.getZnamenitosti();
-        if(znamenitosti != null && !znamenitosti.isEmpty()) {
-            znamenitostiList = FXCollections.observableArrayList(znamenitosti);
+        if(grad != null) {
+            ArrayList<Znamenitost> znamenitosti = grad.getZnamenitosti();
+            if(znamenitosti != null && !znamenitosti.isEmpty()) {
+                znamenitostiList = FXCollections.observableArrayList(znamenitosti);
+            }
         }
         dao = GeografijaDAO.getInstance();
     }
@@ -78,6 +80,14 @@ public class GradController {
     }
 
     public void clickDodaj(ActionEvent actionEvent) {
+        if(grad == null || grad.getId() < 1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Belaj");
+            alert.setHeaderText("Grad nije još u bazi");
+            alert.setContentText("Unesite osnovne podatke pa tek onda znamenitosti sa izmjenom grada.");
+            alert.showAndWait();
+            return;
+        }
         Stage stage = new Stage();
         Parent root = null;
         try {
@@ -107,21 +117,25 @@ public class GradController {
     }
 
     private void lockInputs() {
-        //fieldNaziv.disableProperty().setValue(true);
         fieldNaziv.setEditable(false);
         fieldBrojStanovnika.setEditable(false);
         fieldPostanskiBroj.setEditable(false);
         choiceDrzava.disableProperty().setValue(true);
         fieldNaziv.getScene().setCursor(Cursor.WAIT);
+        btnOk.disableProperty().setValue(true);
+        btnCancel.disableProperty().setValue(true);
+        btnDodajZnamenitost.disableProperty().setValue(true);
     }
 
     private void unlockInputs() {
-        //fieldNaziv.disableProperty().setValue(false);
         fieldNaziv.setEditable(true);
         fieldBrojStanovnika.setEditable(true);
         fieldPostanskiBroj.setEditable(true);
         choiceDrzava.disableProperty().setValue(false);;
         fieldNaziv.getScene().setCursor(Cursor.DEFAULT);
+        btnOk.disableProperty().setValue(false);
+        btnCancel.disableProperty().setValue(false);
+        btnDodajZnamenitost.disableProperty().setValue(false);
     }
 
     public void clickOk(ActionEvent actionEvent) {
@@ -184,11 +198,11 @@ public class GradController {
                     });
 
                 } else {
+                    unlockInputs();
+                    sveOk.set(false);
                     Platform.runLater(() -> {
                         fieldPostanskiBroj.getStyleClass().removeAll("poljeIspravno");
                         fieldPostanskiBroj.getStyleClass().add("poljeNijeIspravno");
-                        sveOk.set(false);
-                        unlockInputs();
                     });
                 }
             } catch (MalformedURLException e) {

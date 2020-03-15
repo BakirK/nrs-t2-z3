@@ -55,22 +55,18 @@ public class ZnamenitostiController {
 
         Optional<String> result = dialog.showAndWait();
         try {
-            System.out.println(result.get());
             //Image image = new Image("file:" + result.get());
             //BufferedImage img = null;
             //img = ImageIO.read(new File(result.get()));
             //Image image = SwingFXUtils.toFXImage(img, null);
             File f = new File(result.get());
             Image imageForFile = new Image(f.toURI().toURL().toExternalForm());
-            if(imageForFile == null) {
-                System.out.println("img nullasdadasdasdasd");
-            }
             imageView.setImage(imageForFile);
             path = result.get();
         } catch(Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
+            alert.setTitle("Belaj");
             alert.setHeaderText("Greška sa pronalaženjem slike!");
             alert.setContentText("Putanja nije ispravna?");
             alert.showAndWait();
@@ -80,6 +76,14 @@ public class ZnamenitostiController {
 
     @FXML
     private void clickSave(ActionEvent actionEvent) {
+        if(fieldZnamenitost.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Belaj");
+            alert.setHeaderText("Naziv je prazan!");
+            alert.setContentText("Unesite naziv znamenitosti.");
+            alert.showAndWait();
+            return;
+        }
         Znamenitost z = new Znamenitost(-1, fieldZnamenitost.getText(), path, grad.getId());
         if(grad.getZnamenitosti() == null) {
             grad.setZnamenitosti(new ArrayList<>());

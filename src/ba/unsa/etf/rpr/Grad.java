@@ -20,6 +20,7 @@ public class Grad {
     }
 
     public Grad() {
+        this.id = -1;
     }
 
     public int getId() {
