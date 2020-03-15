@@ -22,6 +22,7 @@
     <rowConstraints>
         <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" />
         <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" />
+      <RowConstraints />
     </rowConstraints>
     <children>
         <Label text="Naziv:" />
@@ -32,7 +33,7 @@
                 <Button fx:id="btnSave" mnemonicParsing="false" onAction="#clickSave" text="Spasi izmjene" />
             </buttons>
         </ButtonBar>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
     </children>
     <opaqueInsets>
