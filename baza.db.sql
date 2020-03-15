@@ -1,5 +1,5 @@
 BEGIN TRANSACTION;
-CREATE TABLE IF NOT EXISTS "Znamenitost " (
+CREATE TABLE IF NOT EXISTS "znamenitost" (
   "id"	INTEGER,
 	"naziv"	TEXT,
 	"slika"	TEXT,
