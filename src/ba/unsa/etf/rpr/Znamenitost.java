@@ -4,13 +4,15 @@ public class Znamenitost {
     private int id;
     private String naziv;
     private String slika;
+    private int gradID;
 
     public Znamenitost() {
     }
-    public Znamenitost(int id, String naziv, String slika) {
+    public Znamenitost(int id, String naziv, String slika, int gradID) {
         this.id = id;
         this.naziv = naziv;
         this.slika = slika;
+        this.gradID = gradID;
     }
 
     public int getId() {
@@ -35,6 +37,14 @@ public class Znamenitost {
 
     public void setSlika(String slika) {
         this.slika = slika;
+    }
+
+    public int getGradID() {
+        return gradID;
+    }
+
+    public void setGradID(int gradID) {
+        this.gradID = gradID;
     }
 
     @Override
