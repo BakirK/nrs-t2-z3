@@ -109,10 +109,13 @@ public class PretragaController {
 
     private void lockInputs() {
         fieldUzorak.setEditable(false);
+
         //nema arrow+wait cursor za javafx :(
         //btnSearch.getScene().setCursor(Cursor.WAIT);
-        Image image = new Image("batman.png");  //pass in the image path
-        btnSearch.getScene().setCursor(new ImageCursor(image));
+
+        //Image image = new Image("cursor.png");  //pass in the image path
+        //btnSearch.getScene().setCursor(new ImageCursor(image));
+
         btnSearch.disableProperty().setValue(true);
     }
 
