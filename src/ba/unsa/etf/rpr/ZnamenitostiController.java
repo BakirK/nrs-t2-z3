@@ -94,16 +94,21 @@ public class ZnamenitostiController {
             stage.setOnHiding( event -> {
                 //TODO
                 try {
-                    //Image image = new Image("file:" + result.get());
-                    //BufferedImage img = null;
-                    //img = ImageIO.read(new File(result.get()));
-                    //Image image = SwingFXUtils.toFXImage(img, null);
-                    File f = new File(pretragaController.getPutanja());
-                    Image imageForFile = new Image(f.toURI().toURL().toExternalForm());
-                    imageView.setImage(imageForFile);
+                    String s = pretragaController.getPutanja();
+                    //Image image = new Image(s);
+
+                    BufferedImage img = null;
+                    img = ImageIO.read(new File(s));
+                    Image image = SwingFXUtils.toFXImage(img, null);
+
+                    System.out.println(pretragaController.getPutanja());
+
+                    /*File f = new File(pretragaController.getPutanja());
+                    Image imageForFile = new Image(f.toURI().toURL().toExternalForm());*/
+                    imageView.setImage(image);
                     path = pretragaController.getPutanja();
                 } catch(Exception e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Belaj");
                     alert.setHeaderText("Greška sa pronalaženjem slike!");
