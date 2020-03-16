@@ -3,12 +3,18 @@ package ba.unsa.etf.rpr;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class PretragaController {
     @FXML
@@ -26,10 +32,6 @@ public class PretragaController {
 
     @FXML
     public void initialize() {
-        listViewUzorci.getItems().add("C:\\Users\\Bakir\\Pictures\\ker.png");
-        listViewUzorci.getItems().add("C:\\Users\\Bakir\\Pictures\\mouthful.png");
-        listViewUzorci.getItems().add("C:\\Users\\Bakir\\Pictures\\f.png");
-        listViewUzorci.getItems().add("C:\\Users\\Bakir\\Pictures\\r.png");
         listViewUzorci.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -49,6 +51,52 @@ public class PretragaController {
 
     @FXML
     private void clickSearch(ActionEvent actionEvent) {
+        String term = fieldUzorak.getText();
+        String target_file;
+        File[] listOfFiles;
+        Queue<File> folders = new LinkedList<>();
+        //dohvati korisnicki home dir (nije testirano na linuxu)
+        File homeFolder;
+        try {
+            homeFolder = new File(System.getProperty("user.home"));
+            folders.add(homeFolder);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Belaj");
+            alert.setHeaderText("Greška pri otvaranju home direktorija");
+            alert.setContentText("Folder je zaključan?");
+            alert.showAndWait();
+            return;
+        }
+        File currentFolder;
+        while(!folders.isEmpty()) {
+            currentFolder = folders.remove();
+            //preskoci appData jer je prevelika - ne radi???
+            if(currentFolder.getName() == "AppData" || currentFolder.getName() == "Application Data") {
+                continue;
+            }
+            listOfFiles = currentFolder.listFiles();
+            if(listOfFiles == null) {
+                continue;
+            }
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if(listOfFiles[i].isFile()) {
+                    target_file = listOfFiles[i].getName();
+                    if (target_file.contains(term)) {
+                        listViewUzorci.getItems().add(listOfFiles[i].getAbsolutePath());
+                    }
+                }
+                else if(listOfFiles[i].isDirectory()) {
+                    System.out.println(listOfFiles[i].getAbsolutePath());
+                    folders.add(listOfFiles[i]);
+                }
+
+            }
+
+        }
+
+
     }
 
     public String getPutanja() {

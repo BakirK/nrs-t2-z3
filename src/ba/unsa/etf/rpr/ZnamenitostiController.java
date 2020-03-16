@@ -95,6 +95,9 @@ public class ZnamenitostiController {
                 //TODO
                 try {
                     String s = pretragaController.getPutanja();
+                    if(s.trim().isEmpty()) {
+                        return;
+                    }
                     //Image image = new Image(s);
 
                     BufferedImage img = null;
