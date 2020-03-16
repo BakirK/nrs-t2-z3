@@ -1,4 +1,4 @@
-package ba.unsa.etf.rpr;
+package ba.unsa.etf.nrs;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

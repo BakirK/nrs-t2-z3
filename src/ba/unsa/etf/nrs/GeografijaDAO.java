@@ -1,4 +1,4 @@
-package ba.unsa.etf.rpr;
+package ba.unsa.etf.nrs;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

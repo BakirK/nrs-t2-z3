@@ -1,20 +1,16 @@
-package ba.unsa.etf.rpr;
+package ba.unsa.etf.nrs;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-
-import java.io.File;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
