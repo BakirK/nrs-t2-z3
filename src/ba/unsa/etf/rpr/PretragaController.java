@@ -13,8 +13,17 @@ public class PretragaController {
     private Button btnSearch;
     @FXML
     private ListView listViewUzorci;
+    private String putanja = "";
 
     @FXML
     private void clickSearch(ActionEvent actionEvent) {
+    }
+
+    public String getPutanja() {
+        return putanja;
+    }
+
+    private void setPutanja(String putanja) {
+        this.putanja = putanja;
     }
 }
