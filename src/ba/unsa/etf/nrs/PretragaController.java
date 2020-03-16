@@ -24,6 +24,7 @@ public class PretragaController {
     private TextField fieldUzorak;
     private String putanja;
     Object temp;
+    Thread backgroudThread;
 
     public PretragaController() {
         putanja = "";
@@ -50,7 +51,7 @@ public class PretragaController {
 
     @FXML
     private void clickSearch(ActionEvent actionEvent) {
-        new Thread(() -> {
+        backgroudThread = new Thread(() -> {
             lockInputs();
             String term = fieldUzorak.getText();
             String target_file;
@@ -71,7 +72,7 @@ public class PretragaController {
                 return;
             }
             File currentFolder;
-            while(!folders.isEmpty()) {
+            while(!folders.isEmpty() && !Thread.currentThread().isInterrupted()) {
                 currentFolder = folders.remove();
                 listOfFiles = currentFolder.listFiles();
                 if(listOfFiles == null) {
@@ -91,7 +92,8 @@ public class PretragaController {
                 }
             }
             unlockInputs();
-        }).start();
+        });
+        backgroudThread.start();
     }
 
     public String getPutanja() {
@@ -99,6 +101,12 @@ public class PretragaController {
     }
 
     private void zatvoriProzorPropuhJe() {
+        if(backgroudThread != null) {
+            //.stop() je zastarjelo?
+            backgroudThread.interrupt();
+
+            System.out.println("stopped");
+        }
         Stage stage = (Stage) listViewUzorci.getScene().getWindow();
         stage.close();
     }
