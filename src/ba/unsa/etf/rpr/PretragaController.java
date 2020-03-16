@@ -18,6 +18,7 @@ public class PretragaController {
     @FXML
     private TextField fieldUzorak;
     private String putanja;
+    Object temp;
 
     public PretragaController() {
         putanja = "";
@@ -25,14 +26,20 @@ public class PretragaController {
 
     @FXML
     public void initialize() {
+        listViewUzorci.getItems().add("C:\\Users\\Bakir\\Pictures\\ker.png");
+        listViewUzorci.getItems().add("C:\\Users\\Bakir\\Pictures\\mouthful.png");
+        listViewUzorci.getItems().add("C:\\Users\\Bakir\\Pictures\\f.png");
+        listViewUzorci.getItems().add("C:\\Users\\Bakir\\Pictures\\r.png");
         listViewUzorci.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     if(mouseEvent.getClickCount() == 2){
-                        System.out.println("Double clicked");
-                        putanja = listViewUzorci.getSelectionModel().getSelectedItem().toString();
-                        zatvoriProzorPropuhJe();
+                        temp = listViewUzorci.getSelectionModel().getSelectedItem();
+                        if(temp != null) {
+                            putanja = temp.toString();
+                            zatvoriProzorPropuhJe();
+                        }
                     }
                 }
             }
