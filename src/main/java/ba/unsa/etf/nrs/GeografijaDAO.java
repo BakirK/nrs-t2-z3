@@ -146,7 +146,7 @@ public class GeografijaDAO {
     private ArrayList<Znamenitost> dajZnamenitostiIzResultSeta(ResultSet rs) {
         ArrayList<Znamenitost> znamenitosti;
         try {
-            znamenitosti = new ArrayList<>();
+            znamenitosti = new ArrayList<Znamenitost>();
             do {
                 Znamenitost temp = new Znamenitost(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 znamenitosti.add(temp);
