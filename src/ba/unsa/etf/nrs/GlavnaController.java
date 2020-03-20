@@ -8,22 +8,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import net.sf.jasperreports.engine.JRException;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class GlavnaController {
-
     public TableView<Grad> tableViewGradovi;
     public TableColumn colGradId;
     public TableColumn colGradNaziv;
@@ -32,10 +32,15 @@ public class GlavnaController {
     public TableColumn colGradPostanskiBroj;
     private GeografijaDAO dao;
     private ObservableList<Grad> listGradovi;
+    private String[] lans = new String[2];
+    private String currentLan;
+
 
     public GlavnaController() {
         dao = GeografijaDAO.getInstance();
         listGradovi = FXCollections.observableArrayList(dao.gradovi());
+        lans[0] = "Bosanski";
+        lans[1] = "English";
     }
 
     @FXML
@@ -150,6 +155,45 @@ public class GlavnaController {
         } catch (JRException e1) {
             e1.printStackTrace();
         }
+    }
+
+    public void actionLanguage(ActionEvent actionEvent) {
+        if (Locale.getDefault().getCountry().equals("BA")) currentLan = lans[0];
+        else currentLan = lans[1];
+        Dialog d = new ChoiceDialog<>(currentLan, lans);
+        ResourceBundle bundle = ResourceBundle.getBundle("languages");
+        d.setTitle(bundle.getString("languageChoice"));
+        d.setHeaderText(bundle.getString("pleaseChooseLan"));
+        d.setContentText(bundle.getString("language") + ":");
+        d.showAndWait();
+        if (currentLan != ((ChoiceDialog) d).getSelectedItem().toString()) {
+            if (currentLan.equals(lans[0])) currentLan = lans[1];
+            else currentLan = lans[0];
+            if (currentLan.equals("English")) {
+                Locale.setDefault(new Locale("en", "US"));
+                System.out.println("en");
+            } else {
+                Locale.setDefault(new Locale("bs", "BA"));
+                System.out.println("bs");
+            }
+            Stage stage = (Stage) tableViewGradovi.getScene().getWindow();
+            stage.close();
+            bundle = ResourceBundle.getBundle("languages");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/glavna.fxml"), bundle);
+            GlavnaController ctrl = new GlavnaController();
+            loader.setController(ctrl);
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setTitle(bundle.getString("cities"));
+            stage.setScene(new Scene(root, 600, 400));
+            stage.show();
+        }
+
+
     }
 
 
