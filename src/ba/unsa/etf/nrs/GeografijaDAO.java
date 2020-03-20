@@ -327,4 +327,8 @@ public class GeografijaDAO {
             e.printStackTrace();
         }
     }
+
+    public Connection getConn() {
+        return conn;
+    }
 }
