@@ -63,8 +63,8 @@
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics</artifactId>
-            <version>11</version>
+            <artifactId>javafx-swing</artifactId>
+            <version>15-ea+2</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jasperreports</groupId>

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="org.openjfx:javafx-swing:15-ea+2" type="repository">
+    <properties maven-id="org.openjfx:javafx-swing:15-ea+2" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-swing/15-ea+2/javafx-swing-15-ea+2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/15-ea+2/javafx-graphics-15-ea+2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/15-ea+2/javafx-base-15-ea+2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
