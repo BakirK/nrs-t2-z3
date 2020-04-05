@@ -56,8 +56,6 @@ public class GradController {
             fieldNaziv.setText(grad.getNaziv());
             fieldBrojStanovnika.setText(Integer.toString(grad.getBrojStanovnika()));
             fieldPostanskiBroj.setText(Integer.toString(grad.getPostanskiBroj()));
-            // choiceDrzava.getSelectionModel().select(grad.getDrzava());
-            // ovo ne radi jer grad.getDrzava() nije identički jednak objekat kao član listDrzave
             for (Drzava drzava : listDrzave)
                 if (drzava.getId() == grad.getDrzava().getId())
                     choiceDrzava.getSelectionModel().select(drzava);
@@ -83,7 +81,7 @@ public class GradController {
         if(grad == null || grad.getId() < 1) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Belaj");
-            alert.setHeaderText("Grad nije još u bazi");
+            alert.setHeaderText("Grad nije jos u bazi");
             alert.setContentText("Unesite osnovne podatke pa tek onda znamenitosti sa izmjenom grada.");
             alert.showAndWait();
             return;

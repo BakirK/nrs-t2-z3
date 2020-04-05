@@ -57,7 +57,6 @@ public class PretragaController {
             String target_file;
             File[] listOfFiles;
             Queue<File> folders = new LinkedList<>();
-            //dohvati korisnicki home dir (nije testirano na linuxu)
             File homeFolder;
             try {
                 homeFolder = new File(System.getProperty("user.home"));
@@ -66,8 +65,8 @@ public class PretragaController {
                 e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Belaj");
-                alert.setHeaderText("Greška pri otvaranju home direktorija");
-                alert.setContentText("Folder je zaključan?");
+                alert.setHeaderText("Greska pri otvaranju home direktorija");
+                alert.setContentText("Folder je zakljucan?");
                 alert.showAndWait();
                 return;
             }
